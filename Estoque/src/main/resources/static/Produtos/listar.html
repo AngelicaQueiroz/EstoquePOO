@@ -1,0 +1,14 @@
+<script>
+  fetch('/produtos/api')
+          .then(response => response.json())
+          .then(data => {
+            const lista = document.getElementById('produtos-lista');
+            data.forEach(produto => {
+              const li = document.createElement('li');
+              li.textContent = `${produto.nome} (${produto.preco} reais, ${produto.quantidade} un)`;
+              lista.appendChild(li);
+            });
+          });
+</script>
+</body>
+</html>
