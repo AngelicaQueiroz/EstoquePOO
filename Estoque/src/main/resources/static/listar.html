@@ -1,0 +1,135 @@
+<!--<script>
+  fetch('/produtos/api')
+          .then(response => response.json())
+          .then(data => {
+            const lista = document.getElementById('produtos-lista');
+            data.forEach(produto => {
+              const li = document.createElement('li');
+              li.textContent = `${produto.nome} (${produto.preco} reais, ${produto.quantidade} un)`;
+              lista.appendChild(li);
+            });
+          });
+</script>
+</body>
+</html>-->
+
+<!--<html>
+    <body>
+    <h1>teste</h1>
+    </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Produtos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        function confirmarExclusao(id) {
+            document.getElementById('confirmDeleteModal').classList.remove('hidden');
+            document.getElementById('deleteForm').action = '/produtos/deletar/' + id;
+        }
+
+        function fecharModal() {
+            document.getElementById('confirmDeleteModal').classList.add('hidden');
+        }
+
+        // Função para preencher a tabela com os dados vindos da API
+        fetch('/produtos/api')
+            .then(response => response.json())
+            .then(data => {
+                const lista = document.getElementById('produto-lista');
+                lista.innerHTML = '';  // Limpa o conteúdo anterior
+                data.forEach(produto => {
+                    // Cria a linha
+                    const tr = document.createElement('tr');
+
+                    // Cria as colunas
+                    const nomeTd = document.createElement('td');
+                    nomeTd.textContent = produto.nome;
+                    nomeTd.classList.add('border', 'px-4', 'py-2');
+
+                    const produtoTd = document.createElement('td');
+                    precoTd.textContent = produto.preco;
+                    precoTd.classList.add('border', 'px-4', 'py-2');
+
+                    const produtoTd = document.createElement('td');
+                    quantidadeTd.textContent = produto.quantidade;
+                    quantidadeTd.classList.add('border', 'px-4', 'py-2');
+
+                    // Coluna de ações com botões de editar e excluir
+                    const acoesTd = document.createElement('td');
+                    acoesTd.classList.add('border', 'px-4', 'py-2', 'flex', 'space-x-4');
+
+                    console.log(produto.id);
+                    const editarLink = document.createElement('a');
+                    editarLink.href = `/produto/editar/${produto.id}`;
+                    editarLink.textContent = 'Editar';
+                    editarLink.classList.add('bg-yellow-500', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-yellow-600', 'transition');
+
+                    const excluirButton = document.createElement('button');
+                    excluirButton.textContent = 'Excluir';
+                    excluirButton.classList.add('bg-red-500', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-red-600', 'transition');
+                    excluirButton.onclick = () => confirmarExclusao(produto.id);
+
+                    acoesTd.appendChild(editarLink);
+                    acoesTd.appendChild(excluirButton);
+
+                    // Adiciona as colunas na linha
+                    tr.appendChild(nomeTd);
+                    tr.appendChild(precoTd);
+                    tr.appendChild(quantidadeTd);
+                    tr.appendChild(acoesTd);
+
+                    // Adiciona a linha à tabela
+                    lista.appendChild(tr);
+                });
+            });
+    </script>
+</head>
+<body class="bg-black">
+<div class="container mx-auto p-8">
+    <div class="flex justify-between items-center mb-4">
+        <img src="images\Logo.png" alt="Logo Mags Brasa Burguer" class="w-14 mx-auto mb-10">
+        <h1 class="text-3xl font-bold text-gray-100 text-center flex-1">Lista de Produtos</h1>
+        <div class="flex space-x-4">
+            <a href="/produtos/nova" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+                Adicionar Novo Produto
+            </a>
+            <a href="/" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                Voltar
+            </a>
+        </div>
+    </div>
+
+    <table class="table-auto w-full mt-6 bg-white rounded shadow-lg">
+        <thead>
+        <tr class="bg-blue-500 text-white">
+            <th class="px-4 py-2">Nome</th>
+            <th class="px-4 py-2">Preço</th>
+            <th class="px-4 py-2">Quantidade</th>
+            <th class="px-4 py-2">Ações</th>
+        </tr>
+        </thead>
+        <tbody id="produto-lista">
+        <!-- Linhas de produtos serão adicionadas aqui dinamicamente -->
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Modal de Confirmação -->
+<div id="confirmDeleteModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 hidden flex justify-center items-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold mb-4">Confirmar Exclusão</h2>
+        <p class="mb-4">Você tem certeza que deseja excluir este produto?</p>
+        <form id="deleteForm" method="post">
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">Sim, Excluir</button>
+            <button type="button" onclick="fecharModal()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition ml-4">Cancelar</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
