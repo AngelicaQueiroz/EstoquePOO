@@ -3,87 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adicionar/Editar produto</title>
+  <title>Adicionar/Editar Produto</title>
   <link
           href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
           rel="stylesheet"
   />
 </head>
 <body class="bg-gray-100 flex justify-center items-center h-screen">
-<div class="bg-white p-8 rounded shadow-lg w-full max-w-md">
-  <h1 class="text-3xl font-bold text-blue-600 mb-6 text-center">
-    Adicionar/Editar Produto
-  </h1>
-  <form action="/produtos/salvar" method="post" class="space-y-4">
-    <!-- Campo oculto para o ID -->
-    <input
-            type="hidden"
-            id="id"
-            name="id"
-            value=""
-    />
 
-    <div>
-      <label for="nome" class="block text-left mb-1 text-gray-700"
-      >Nome:</label
-      >
-      <input
-              type="text"
-              id="nome"
-              name="nome"
-              class="w-full p-2 border rounded"
-              required
-      />
-    </div>
-    <div>
-      <label for="preco" class="block text-left mb-1 text-gray-700"
-      >Preço:</label
-      >
-      <input
-              type="number"
-              id="preco"
-              name="preco"
-              class="w-full p-2 border rounded"
-              required
-      />
-    </div>
-    <div>
-      <label for="quantidade" class="block text-left mb-1 text-gray-700"
-      >Quantidade:</label
-      >
-      <input
-              type="text"
-              id="quantidade"
-              name="quantidade"
-              class="w-full p-2 border rounded"
-              required
-      />
-    </div>
+<!-- Botão para abrir o modal -->
+<button
+        id="openModalButton"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+>
+  Adicionar/Editar Produto
+</button>
+
+<!-- Modal -->
+<div
+        id="productModal"
+        class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+>
+  <div class="bg-white p-8 rounded shadow-lg w-full max-w-md relative">
     <button
-            type="submit"
-            class="bg-blue-500 w-full text-white py-2 rounded hover:bg-blue-600 transition"
+            id="closeModalButton"
+            class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
     >
-      Salvar
+      &times;
     </button>
-  </form>
-  <a
-          href="/produtos"
-          class="bg-green-500 text-white mt-4 block py-2 rounded text-center hover:bg-green-600 transition"
-  >Voltar</a
-  >
+
+    <h1 class="text-3xl font-bold text-blue-600 mb-6 text-center">
+      Adicionar/Editar Produto
+    </h1>
+
+    <form action="/produtos/salvar" method="post" class="space-y-4">
+      <!-- Campo oculto para o ID -->
+      <input type="hidden" id="id" name="id" value=""/>
+
+      <div>
+        <label for="nome" class="block text-left mb-1 text-gray-700">Nome:</label>
+        <input type="text" id="nome" name="nome" class="w-full p-2 border rounded" required/>
+      </div>
+
+      <div>
+        <label for="preco" class="block text-left mb-1 text-gray-700">Preço:</label>
+        <input type="number" id="preco" name="preco" class="w-full p-2 border rounded" required/>
+      </div>
+
+      <div>
+        <label for="quantidade" class="block text-left mb-1 text-gray-700">Quantidade:</label>
+        <input type="text" id="quantidade" name="quantidade" class="w-full p-2 border rounded" required/>
+      </div>
+
+      <button
+              type="submit"
+              class="bg-blue-500 w-full text-white py-2 rounded hover:bg-blue-600 transition"
+      >
+        Salvar
+      </button>
+    </form>
+
+    <a
+            href="/produtos"
+            class="bg-green-500 text-white mt-4 block py-2 rounded text-center hover:bg-green-600 transition"
+    >
+      Voltar
+    </a>
+  </div>
 </div>
 
 <script>
+  // Funções para abrir e fechar o modal
+  const openModalButton = document.getElementById('openModalButton');
+  const closeModalButton = document.getElementById('closeModalButton');
+  const productModal = document.getElementById('productModal');
+
+  openModalButton.addEventListener('click', () => {
+    productModal.classList.remove('hidden');
+  });
+
+  closeModalButton.addEventListener('click', () => {
+    productModal.classList.add('hidden');
+  });
+
   // Supondo que o ID seja parte da URL, extraímos o ID do caminho
   const pathArray = window.location.pathname.split("/");
-  const pessoaId = pathArray[pathArray.length - 1];
+  const produtoId = pathArray[pathArray.length - 1];
 
   // Se estiver editando (quando o ID é um número), buscamos os dados via API
   if (produtoId && !isNaN(produtoId)) {
     fetch(`/produtos/api/${produtoId}`)
             .then((response) => response.json())
             .then((data) => {
-              // Preenche os campos do formulário com os dados da pessoa
+              // Preenche os campos do formulário com os dados do produto
               document.getElementById("id").value = data.id;
               document.getElementById("nome").value = data.nome;
               document.getElementById("preco").value = data.preco;
@@ -93,9 +105,10 @@
                     console.error("Erro ao buscar dados do produto:", error)
             );
   } else {
-    // Se estiver adicionando uma nova pessoa, o campo 'id' deve permanecer vazio
+    // Se estiver adicionando um novo produto, o campo 'id' deve permanecer vazio
     document.getElementById("id").value = "";
   }
 </script>
 </body>
 </html>
+

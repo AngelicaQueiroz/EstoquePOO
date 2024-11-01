@@ -1,23 +1,3 @@
-<!--<script>
-  fetch('/produtos/api')
-          .then(response => response.json())
-          .then(data => {
-            const lista = document.getElementById('produtos-lista');
-            data.forEach(produto => {
-              const li = document.createElement('li');
-              li.textContent = `${produto.nome} (${produto.preco} reais, ${produto.quantidade} un)`;
-              lista.appendChild(li);
-            });
-          });
-</script>
-</body>
-</html>-->
-
-<!--<html>
-    <body>
-    <h1>teste</h1>
-    </body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +15,14 @@
             document.getElementById('confirmDeleteModal').classList.add('hidden');
         }
 
+        function abrirProdutoModal() {
+            document.getElementById('productModal').classList.remove('hidden');
+        }
+
+        function fecharProdutoModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
         // Função para preencher a tabela com os dados vindos da API
         fetch('/produtos/api')
             .then(response => response.json())
@@ -42,27 +30,22 @@
                 const lista = document.getElementById('produto-lista');
                 lista.innerHTML = '';  // Limpa o conteúdo anterior
                 data.forEach(produto => {
-                    // Cria a linha
                     const tr = document.createElement('tr');
-
-                    // Cria as colunas
                     const nomeTd = document.createElement('td');
                     nomeTd.textContent = produto.nome;
                     nomeTd.classList.add('border', 'px-4', 'py-2');
 
-                    const produtoTd = document.createElement('td');
+                    const precoTd = document.createElement('td');
                     precoTd.textContent = produto.preco;
                     precoTd.classList.add('border', 'px-4', 'py-2');
 
-                    const produtoTd = document.createElement('td');
+                    const quantidadeTd = document.createElement('td');
                     quantidadeTd.textContent = produto.quantidade;
                     quantidadeTd.classList.add('border', 'px-4', 'py-2');
 
-                    // Coluna de ações com botões de editar e excluir
                     const acoesTd = document.createElement('td');
                     acoesTd.classList.add('border', 'px-4', 'py-2', 'flex', 'space-x-4');
 
-                    console.log(produto.id);
                     const editarLink = document.createElement('a');
                     editarLink.href = `/produto/editar/${produto.id}`;
                     editarLink.textContent = 'Editar';
@@ -76,13 +59,11 @@
                     acoesTd.appendChild(editarLink);
                     acoesTd.appendChild(excluirButton);
 
-                    // Adiciona as colunas na linha
                     tr.appendChild(nomeTd);
                     tr.appendChild(precoTd);
                     tr.appendChild(quantidadeTd);
                     tr.appendChild(acoesTd);
 
-                    // Adiciona a linha à tabela
                     lista.appendChild(tr);
                 });
             });
@@ -91,12 +72,12 @@
 <body class="bg-black">
 <div class="container mx-auto p-8">
     <div class="flex justify-between items-center mb-4">
-        <img src="images\Logo.png" alt="Logo Mags Brasa Burguer" class="w-14 mx-auto mb-10">
+        <img src="images/Logo.png" alt="Logo Mags Brasa Burguer" class="w-14 mx-auto mb-10">
         <h1 class="text-3xl font-bold text-gray-100 text-center flex-1">Lista de Produtos</h1>
         <div class="flex space-x-4">
-            <a href="/produtos/nova" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+            <button onclick="abrirProdutoModal()" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
                 Adicionar Novo Produto
-            </a>
+            </button>
             <a href="/" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
                 Voltar
             </a>
@@ -118,7 +99,33 @@
     </table>
 </div>
 
+<!-- Modal para Adicionar/Editar Produto -->
+<div id="productModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden flex justify-center items-center">
+    <div class="bg-white p-8 rounded shadow-lg w-full max-w-md relative">
+        <button onclick="fecharProdutoModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
 
+        <h1 class="text-3xl font-bold text-blue-600 mb-6 text-center">Adicionar/Editar Produto</h1>
+
+        <form action="/produtos/salvar" method="post" class="space-y-4">
+            <input type="hidden" id="id" name="id" value="" />
+            <div>
+                <label for="nome" class="block text-left mb-1 text-gray-700">Nome:</label>
+                <input type="text" id="nome" name="nome" class="w-full p-2 border rounded" required />
+            </div>
+            <div>
+                <label for="preco" class="block text-left mb-1 text-gray-700">Preço:</label>
+                <input type="number" id="preco" name="preco" class="w-full p-2 border rounded" required />
+            </div>
+            <div>
+                <label for="quantidade" class="block text-left mb-1 text-gray-700">Quantidade:</label>
+                <input type="text" id="quantidade" name="quantidade" class="w-full p-2 border rounded" required />
+            </div>
+            <button type="submit" class="bg-blue-500 w-full text-white py-2 rounded hover:bg-blue-600 transition">
+                Salvar
+            </button>
+        </form>
+    </div>
+</div>
 
 <!-- Modal de Confirmação -->
 <div id="confirmDeleteModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 hidden flex justify-center items-center">
