@@ -8,8 +8,8 @@ public class AppConfig {
 
     @Bean
     public ProdutoDAO produtoDAO() {
-        String nomeBanco = "nomeBanco";
-        return new ProdutoDAO(nomeBanco);
+        String estoque = "estoque";
+        return new ProdutoDAO(estoque);
     }
 }
 

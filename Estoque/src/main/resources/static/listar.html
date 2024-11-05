@@ -23,6 +23,10 @@
             document.getElementById('productModal').classList.add('hidden');
         }
 
+        function salvarModal() {
+            document.getElementById('produto-lista').classList.add('hidden');
+        }
+
         // Função para preencher a tabela com os dados vindos da API
         fetch('/produtos/api')
             .then(response => response.json())

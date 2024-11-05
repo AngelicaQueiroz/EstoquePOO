@@ -17,7 +17,7 @@ import java.util.List;
 public class ProdutoDAO implements AutoCloseable {
     private final Connection conexao;
 
-    public ProdutoDAO(String nomeBanco) {
+    public ProdutoDAO(String estoque) {
         try {
             // Define o caminho relativo ao diretório do projeto para o banco de dados
             Path currentRelativePath = Paths.get("");
@@ -31,7 +31,7 @@ public class ProdutoDAO implements AutoCloseable {
                 System.out.println("Diretório criado: " + dbDirectory);
             }
             // Define a URL para o banco de dados SQLite
-            String url = "jdbc:sqlite:" + dbDirectory + File.separator + nomeBanco + ".db"; // Correção de separador
+            String url = "jdbc:sqlite:" + dbDirectory + File.separator + estoque + ".db"; // Correção de separador
             conexao = DriverManager.getConnection(url);
             criarTabelaProduto();
         } catch (SQLException e) {

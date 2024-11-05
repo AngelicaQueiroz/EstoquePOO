@@ -11,13 +11,13 @@
 </head>
 <body class="bg-gray-100 flex justify-center items-center h-screen">
 
-<!-- Botão para abrir o modal -->
+<!-- Botão para abrir o modal
 <button
         id="openModalButton"
         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
 >
   Adicionar/Editar Produto
-</button>
+</button>-->
 
 <!-- Modal -->
 <div
@@ -37,7 +37,7 @@
     </h1>
 
     <form action="/produtos/salvar" method="post" class="space-y-4">
-      <!-- Campo oculto para o ID -->
+      <!--Campo oculto para o ID -->
       <input type="hidden" id="id" name="id" value=""/>
 
       <div>
@@ -55,18 +55,12 @@
         <input type="text" id="quantidade" name="quantidade" class="w-full p-2 border rounded" required/>
       </div>
 
-      <button
-              type="submit"
-              class="bg-blue-500 w-full text-white py-2 rounded hover:bg-blue-600 transition"
-      >
+      <button type="submit" class="bg-blue-500 w-full text-white py-2 rounded hover:bg-blue-600 transition">
         Salvar
       </button>
     </form>
 
-    <a
-            href="/produtos"
-            class="bg-green-500 text-white mt-4 block py-2 rounded text-center hover:bg-green-600 transition"
-    >
+    <a href="/produtos" class="bg-green-500 text-white mt-4 block py-2 rounded text-center hover:bg-green-600 transition">
       Voltar
     </a>
   </div>
