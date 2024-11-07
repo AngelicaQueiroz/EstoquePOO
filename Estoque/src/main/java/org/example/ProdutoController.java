@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 
 import java.util.List;
 
-@RestController
+@Controller
 public class ProdutoController {
 
     @Autowired
@@ -20,7 +20,7 @@ public class ProdutoController {
     }
 
     // Serve a página de listagem
-    @GetMapping("/produtos")
+    @GetMapping("produtos")
     public String listarProdutos(Model model) {
         List<Produto> produtos = produtoService.listarTodosProdutos(); // Obtém a lista de produtos do serviço
         model.addAttribute("produtos", produtos); // Adiciona a lista ao modelo
@@ -28,24 +28,45 @@ public class ProdutoController {
     }
 
     // Serve a API de listagem de produtos (para JavaScript)
-    @GetMapping("/produtos/api")
+    @GetMapping("produtos/api")
     @ResponseBody
     public List<Produto> listarProdutosApi() {
         return produtoService.listarTodosProdutos(); // Usa o serviço para obter os produtos
     }
 
     // Serve a página de formulário
-    @GetMapping("/produtos/novo")
+    @GetMapping("produtos/novo")
     public String novoProduto(Model model) {
-        model.addAttribute("produto", new Produto(0, "", 0.0, 0));
+        model.addAttribute("produto", new Produto("0", "", 0.0, 0));
         return "formulario.html";
     }
 
     // Salva um novo produto via POST
-    @PostMapping("/produtos/salvar")
+    @PostMapping("produtos/salvar")
     public String salvarProduto(@ModelAttribute Produto produto) {
         produtoService.adicionarProduto(produto); // Usa o serviço para adicionar o produto
-        return "redirect:/listar.html";
+        return "redirect:/listar.html"; // Redireciona para a listagem
+        }
+
+    @PostMapping("produtos/excluir/{id}")
+    public String excluirProdutoPost(@PathVariable String id, @RequestParam("_method") String method) {
+        if ("delete".equalsIgnoreCase(method)) {
+            produtoService.removerProduto(id);  // Chama o serviço para excluir o produto
+        }
+        return "redirect:/produtos";  // Redireciona para a lista de produtos
     }
+
+    // Exibe o formulário de edição para um produto específico
+    /*@GetMapping("produtos/editar/{id}")
+    public String editarProduto(@PathVariable String id, Model model) {
+        Produto produto = produtoService.obterProdutoPorID(id); // Obtém o produto pelo ID
+        model.addAttribute("produto", produto); // Adiciona o produto ao modelo para preencher o formulário
+        return "formulario.html"; // Usa o mesmo formulário para adicionar/editar
+    }*/
+
+
+
 }
+
+
 

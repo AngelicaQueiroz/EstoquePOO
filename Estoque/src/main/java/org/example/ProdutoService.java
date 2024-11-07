@@ -19,7 +19,7 @@ public class ProdutoService {
         produtoDAO.inserirProduto(produto);
     }
 
-    public Produto obterProdutoPorID(int id) {
+    public Produto obterProdutoPorID(String id) {
         return produtoDAO.obterProdutoPorID(id);
     }
 
@@ -27,13 +27,15 @@ public class ProdutoService {
         return produtoDAO.obterTodosProdutos();
     }
 
-    public void atualizarProduto(int id, String nome, Double preco, Integer quantidade) {
+    public void alterarProdutos(String id, String nome, Double preco, Integer quantidade) {
         produtoDAO.alterarProdutos(id, nome, preco, quantidade);
     }
 
-    public void removerProduto(int id) {
-        produtoDAO.deletarProduto(id);
+    public void removerProduto(String id) {
+        produtoDAO.deletarProduto(Integer.parseInt(id)); // Passa o id como String, sem conversão
     }
+
+
 }
 
 

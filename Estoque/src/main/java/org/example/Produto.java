@@ -1,13 +1,13 @@
 package org.example;
 
 public class Produto {
-    private int id;
+    private String id;
     private String nome;
     private double preco;
     private int quantidade;
 
     // Construtor
-    public Produto(int id,String nome, double preco, int quantidade) {
+    public Produto(String id,String nome, double preco, int quantidade) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
@@ -15,7 +15,7 @@ public class Produto {
     }
 
     // Getters e Setters
-    public int getId() {return id;}
+    public String getId() {return id;}
     public String getNome() {
         return nome;
     }
@@ -26,7 +26,7 @@ public class Produto {
         return quantidade;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     public void setNome(String nome) {

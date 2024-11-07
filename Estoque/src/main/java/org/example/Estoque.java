@@ -20,9 +20,9 @@ public class Estoque {
     }
 
     // Atualiza quantidade de Produto
-    public void atualizarQuantidade(int id, int quantidade) {
+    public void atualizarQuantidade(String id, int quantidade) {
         for (Produto produto : produtos) {
-            if (produto.getId() == id) {
+            if (produto.getId().equalsIgnoreCase(id)) {
                 produto.setQuantidade(quantidade);
                 break;
             }

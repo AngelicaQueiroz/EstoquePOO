@@ -36,7 +36,7 @@
       Adicionar/Editar Produto
     </h1>
 
-    <form action="/produtos/salvar" method="post" class="space-y-4">
+    <form action="produtos/salvar" method="post" class="space-y-4">
       <!--Campo oculto para o ID -->
       <input type="hidden" id="id" name="id" value=""/>
 
@@ -52,7 +52,7 @@
 
       <div>
         <label for="quantidade" class="block text-left mb-1 text-gray-700">Quantidade:</label>
-        <input type="text" id="quantidade" name="quantidade" class="w-full p-2 border rounded" required/>
+        <input type="number" id="quantidade" name="quantidade" class="w-full p-2 border rounded" required/>
       </div>
 
       <button type="submit" class="bg-blue-500 w-full text-white py-2 rounded hover:bg-blue-600 transition">

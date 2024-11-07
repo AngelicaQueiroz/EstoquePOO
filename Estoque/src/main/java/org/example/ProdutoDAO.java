@@ -68,15 +68,15 @@ public class ProdutoDAO implements AutoCloseable {
         }
     }
 
-    public Produto obterProdutoPorID(int id) {
+    public Produto obterProdutoPorID(String id) {
         String sql = "SELECT id, nome, preco, quantidade FROM produtos WHERE id = ?"; // Removido '*'
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-            statement.setInt(1, id);
+            statement.setString(1, id);
             try (ResultSet result = statement.executeQuery()) {
                 if (!result.next()) {
                     return null;
                 }
-                return new Produto(result.getInt("id"),
+                return new Produto(result.getString("id"),
                         result.getString("nome"),
                         result.getDouble("preco"),
                         result.getInt("quantidade")); // Corrigido para int
@@ -94,7 +94,7 @@ public class ProdutoDAO implements AutoCloseable {
             try (ResultSet result = statement.executeQuery()) {
                 while (result.next()) {
                     produtos.add(new Produto(
-                            result.getInt("id"),
+                            result.getString("id"),
                             result.getString("nome"),
                             result.getDouble("preco"),
                             result.getInt("quantidade"))); // Corrigido para int
@@ -107,7 +107,7 @@ public class ProdutoDAO implements AutoCloseable {
         return produtos;
     }
 
-    public void alterarProdutos(int id, String nome, Double preco, Integer quantidade) {
+    public void alterarProdutos(String id, String nome, Double preco, Integer quantidade) {
         StringBuilder sqlBuilder = new StringBuilder("UPDATE produtos SET ");
         List<Object> parametros = new ArrayList<>();
         if (nome != null) {
@@ -156,4 +156,7 @@ public class ProdutoDAO implements AutoCloseable {
             System.err.println("Erro ao fechar a conexão: " + e.getMessage());
         }
     }
+
+    //public void alterarProdutos(String id, String nome, Double preco, Integer quantidade) {
+    //}
 }
