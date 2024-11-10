@@ -23,8 +23,21 @@
             document.getElementById('productModal').classList.add('hidden');
         }
 
-        function salvarModal() {
-            document.getElementById('produto-lista').classList.add('hidden');
+        function editarProduto(id) {
+            // Buscar os dados do produto
+            fetch(`/produtos/api/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Preencher os campos do formulário com os dados do produto
+                    document.getElementById('id').value = data.id;
+                    document.getElementById('nome').value = data.nome;
+                    document.getElementById('preco').value = data.preco;
+                    document.getElementById('quantidade').value = data.quantidade;
+
+                    // Abrir o modal
+                    abrirProdutoModal();
+                })
+                .catch(error => console.error("Erro ao buscar dados do produto:", error));
         }
 
         // Função para preencher a tabela com os dados vindos da API
@@ -50,10 +63,10 @@
                     const acoesTd = document.createElement('td');
                     acoesTd.classList.add('border', 'px-4', 'py-2', 'flex', 'space-x-4');
 
-                    const editarLink = document.createElement('a');
-                    editarLink.href = `/produto/editar/${produto.id}`;
+                    const editarLink = document.createElement('button');
                     editarLink.textContent = 'Editar';
                     editarLink.classList.add('bg-yellow-500', 'text-white', 'px-4', 'py-2', 'rounded', 'hover:bg-yellow-600', 'transition');
+                    editarLink.onclick = () => editarProduto(produto.id); // Chama a função de edição
 
                     const excluirButton = document.createElement('button');
                     excluirButton.textContent = 'Excluir';
@@ -71,6 +84,10 @@
                     lista.appendChild(tr);
                 });
             });
+
+
+
+        // Listener para o envio do formulário de edição
     </script>
 </head>
 <body class="bg-black">

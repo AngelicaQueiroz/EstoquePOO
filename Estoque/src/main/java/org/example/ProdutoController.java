@@ -39,7 +39,7 @@ public class ProdutoController {
     public String salvarProduto(@ModelAttribute Produto produto) {
         produtoService.adicionarProduto(produto); // Usa o serviço para adicionar o produto
         return "redirect:/listar.html"; // Redireciona para a listagem
-        }
+    }
 
     @PostMapping("produtos/excluir/{id}")
     public String excluirProdutoPost(@PathVariable String id, @RequestParam("_method") String method) {
@@ -63,7 +63,7 @@ public class ProdutoController {
 
         Produto produto = produtoService.obterProdutoPorID(id);
         if (produto == null) {
-            throw new RuntimeException("Produto não encontrado");
+            throw new RuntimeException("Produto não encontrado teste");
         }
 
         System.out.println("Produto encontrada: " + produto);
@@ -80,6 +80,7 @@ public class ProdutoController {
     }
 
 }
+
 
 
 
