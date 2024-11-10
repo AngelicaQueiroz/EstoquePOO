@@ -27,9 +27,10 @@ public class ProdutoService {
         return produtoDAO.obterTodosProdutos();
     }
 
-    public void alterarProdutos(String id, String nome, Double preco, Integer quantidade) {
-        produtoDAO.alterarProdutos(id, nome, preco, quantidade);
+    public void alterarProduto(Produto produto) {
+        produtoDAO.alterarProduto(produto);
     }
+
 
     public void removerProduto(String id) {
         produtoDAO.deletarProduto(Integer.parseInt(id)); // Passa o id como String, sem conversão

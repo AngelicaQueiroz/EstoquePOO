@@ -1,7 +1,6 @@
 package org.example;
 
 import org.springframework.stereotype.Repository;
-
 import java.sql.SQLException;
 import java.io.File;
 import java.nio.file.Path;
@@ -107,33 +106,24 @@ public class ProdutoDAO implements AutoCloseable {
         return produtos;
     }
 
-    public void alterarProdutos(String id, String nome, Double preco, Integer quantidade) {
-        StringBuilder sqlBuilder = new StringBuilder("UPDATE produtos SET ");
-        List<Object> parametros = new ArrayList<>();
-        if (nome != null) {
-            sqlBuilder.append("nome = ?");
-            parametros.add(nome);
-        }
-        if (preco != null) {
-            sqlBuilder.append(", preco = ?");
-            parametros.add(preco);
-        }
-        if (quantidade != null) {
-            sqlBuilder.append(", quantidade = ?");
-            parametros.add(quantidade);
-        }
-        sqlBuilder.append(" WHERE id = ?");
-        parametros.add(id);
-        try (PreparedStatement statement = conexao.prepareStatement(sqlBuilder.toString())) {
-            for (int i = 0; i < parametros.size(); i++) {
-                statement.setObject(i + 1, parametros.get(i));
-            }
+
+
+    public void alterarProduto(Produto produto) {
+        String sql = "UPDATE produtos SET nome = ?, preco = ?, quantidade = ? WHERE id = ?";
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setString(1, produto.getNome());
+            statement.setDouble(2, produto.getPreco());
+            statement.setInt(3, produto.getQuantidade());
+            statement.setString(4, produto.getId());  // Aqui usamos o ID do objeto Produto
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Erro ao alterar produto: " + e.getMessage());
             throw new RuntimeException("Erro ao alterar produto", e);
         }
     }
+
+
+
 
     public void deletarProduto(int id) {
         String sql = "DELETE FROM produtos WHERE id = ?";

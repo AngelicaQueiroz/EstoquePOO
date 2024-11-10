@@ -1,10 +1,8 @@
 package org.example;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import java.util.List;
 
 @Controller
@@ -28,18 +26,13 @@ public class ProdutoController {
     }
 
     // Serve a API de listagem de produtos (para JavaScript)
-    @GetMapping("produtos/api")
+    @GetMapping("/produtos/api")
     @ResponseBody
     public List<Produto> listarProdutosApi() {
         return produtoService.listarTodosProdutos(); // Usa o serviço para obter os produtos
     }
 
-    // Serve a página de formulário
-    @GetMapping("produtos/novo")
-    public String novoProduto(Model model) {
-        model.addAttribute("produto", new Produto("0", "", 0.0, 0));
-        return "formulario.html";
-    }
+
 
     // Salva um novo produto via POST
     @PostMapping("produtos/salvar")
@@ -56,15 +49,35 @@ public class ProdutoController {
         return "redirect:/produtos";  // Redireciona para a lista de produtos
     }
 
-    // Exibe o formulário de edição para um produto específico
-    /*@GetMapping("produtos/editar/{id}")
-    public String editarProduto(@PathVariable String id, Model model) {
-        Produto produto = produtoService.obterProdutoPorID(id); // Obtém o produto pelo ID
-        model.addAttribute("produto", produto); // Adiciona o produto ao modelo para preencher o formulário
-        return "formulario.html"; // Usa o mesmo formulário para adicionar/editar
-    }*/
+    // Serve a página de formulário
+    @GetMapping("produtos/novo")
+    public String novoProduto(Model model) {
+        model.addAttribute("produto", new Produto("0", "", 0.0, 0));
+        return "formulario.html";
+    }
 
+    @GetMapping("/produtos/editar/{id}")
+    public String editarProduto(@PathVariable("id") String id, Model model) {
 
+        System.out.println("Recebido ID:" + id);
+
+        Produto produto = produtoService.obterProdutoPorID(id);
+        if (produto == null) {
+            throw new RuntimeException("Produto não encontrado");
+        }
+
+        System.out.println("Produto encontrada: " + produto);
+
+        model.addAttribute("produto", produto);
+        return "formulario"; // pode omitir .html, o Spring Boot completa automaticamente
+    }
+
+    // Atualizar o produto após a edição
+    @PostMapping("/produtos/editar")
+    public String atualizarProduto(@ModelAttribute("produto") Produto produto) {
+        produtoService.alterarProduto(produto);
+        return "redirect:/listar.html"; // redireciona para a página de lista de produtos após salvar
+    }
 
 }
 

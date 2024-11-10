@@ -1,9 +1,19 @@
 package org.example;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
+
 public class Produto {
+    @Id
     private String id;
+    @Column
     private String nome;
+    @Column
     private double preco;
+    @Column
     private int quantidade;
 
     // Construtor

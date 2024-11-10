@@ -1,0 +1,7 @@
+org\example\Estoque.class
+org\example\Produto.class
+org\example\Main.class
+org\example\ProdutoService.class
+org\example\AppConfig.class
+org\example\ProdutoController.class
+org\example\ProdutoDAO.class

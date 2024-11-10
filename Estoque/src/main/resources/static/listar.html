@@ -112,6 +112,9 @@
 
         <form action="/produtos/salvar" method="post" class="space-y-4">
             <input type="hidden" id="id" name="id" value="" />
+
+            <!--<input type="hidden" id="id" name="_method" value="edit" />-->
+
             <div>
                 <label for="nome" class="block text-left mb-1 text-gray-700">Nome:</label>
                 <input type="text" id="nome" name="nome" class="w-full p-2 border rounded" required />
@@ -130,6 +133,9 @@
         </form>
     </div>
 </div>
+
+
+
 
 <!-- Modal de Confirmação -->
 <div id="confirmDeleteModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 hidden flex justify-center items-center">
