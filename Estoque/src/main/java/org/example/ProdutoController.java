@@ -32,6 +32,12 @@ public class ProdutoController {
         return produtoService.listarTodosProdutos(); // Usa o serviço para obter os produtos
     }
 
+    // Retorna um produto específico pelo ID
+@GetMapping("/produtos/api/{id}")
+@ResponseBody
+public Produto obterProdutoPorIdApi(@PathVariable("id") String id) {
+    return produtoService.obterProdutoPorID(id); // Usa o serviço para buscar o produto pelo ID
+}
 
 
     // Salva um novo produto via POST
